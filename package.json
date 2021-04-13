@@ -1,0 +1,27 @@
+{
+  "name": "bitfresh-token",
+  "version": "0.0.1",
+  "description": "",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "testrpc": "ganache-cli --gasLimit 13000000 -e 100000 --networkId 666",
+    "compile": "truffle compile --network testnet",
+    "compile:waffle": "waffle .waffle.json",
+    "migrate": "truffle migrate --network testnet",
+    "migrate:reset": "truffle migrate --network testnet --reset",
+    "test": "rm -rf contracts/flattened/*.sol && truffle test",
+    "flatten": "truffle-flattener ./contracts/TokenVesting.sol --output ./TokenVesting_flat.sol",
+    "verify:testnet": "truffle run verify BitfreshToken --network testnet && truffle run verify TokenVestingFactory --network testnet",
+    "verify:testnet2": "truffle run verify TokenVesting --network testnet && truffle run verify TokenTimelock --network testnet"
+  },
+  "keywords": [],
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.0.0",
+    "dotenv": "^8.2.0",
+    "truffle-hdwallet-provider": "^1.0.17",
+    "truffle-plugin-verify": "^0.5.7"
+  }
+}
