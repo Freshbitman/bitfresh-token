@@ -1,5 +1,5 @@
 /* solium-disable security/no-block-members */
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.3;
 
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -48,8 +48,8 @@ contract TokenVesting is Ownable, Initializable {
     bool _revocable
   ) external initializer
   {
-    require(_beneficiary != address(0));
-    require(_cliff <= _duration);
+    require(_beneficiary != address(0), "_beneficiary cannot be address 0");
+    require(_cliff <= _duration, "_duration needs to be more than _cliff");
 
     beneficiary = _beneficiary;
     revocable = _revocable;
@@ -65,7 +65,7 @@ contract TokenVesting is Ownable, Initializable {
   function release(IERC20 token) public {
     uint256 unreleased = releasableAmount(token);
 
-    require(unreleased > 0);
+    require(unreleased > 0, "No tokens to release");
 
     released[address(token)] = released[address(token)].add(unreleased);
 
@@ -80,8 +80,8 @@ contract TokenVesting is Ownable, Initializable {
    * @param token ERC20 token which is being vested
    */
   function revoke(IERC20 token) public onlyOwner {
-    require(revocable);
-    require(!revoked[address(token)]);
+    require(revocable, "Not revocable");
+    require(!revoked[address(token)], "Already revoked");
 
     uint256 balance = token.balanceOf(address(this));
 

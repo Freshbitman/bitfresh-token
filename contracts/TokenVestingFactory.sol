@@ -1,4 +1,4 @@
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.3;
 
 import "./TokenVesting.sol";
 import "./TokenTimelock.sol";
@@ -31,10 +31,10 @@ contract TokenVestingFactory {
     emit DeployedVestingContract(address(vesting), _beneficiary, _owner);
   }
 
-  function deployTimelockContract(IERC20 _token, address _beneficiary, uint256 _releaseTime) public {
+  function deployTimelockContract(address _beneficiary, uint256 _releaseTime) public {
     TokenTimelock timelock = new TokenTimelock();
 
-    timelock.initialize(_token, _beneficiary, _releaseTime);
+    timelock.initialize(_beneficiary, _releaseTime);
 
     emit DeployedTimelockContract(address(timelock), _beneficiary, _releaseTime);
   }
